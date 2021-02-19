@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <header>
+        <link rel="stylesheet" href="customerInfo.css">
+        <title>Customer Information</title>
+        <script>
+            let errList = [
+                "errorFirstname",
+                "errorLastname",
+                "errorEmail",
+            ];
+
+            function validate() {
+
+            let inputs = [];
+			inputs[0] = document.getElementById("firstname").value;
+			inputs[1] = document.getElementById("lastname").value;
+			inputs[2] = document.getElementById("email").value;
+
+            let errors = [];
+			errors[0] = "<span style='color:red'> Please enter your first name!></span>"
+			errors[1] = "<span style='color:red'> Please enter your last name!></span>"
+			errors[2] = "<span style='color:red'> Please enter your email address!></span>"
+
+            let i = 0;
+            for (i; i < inputs.length; i++) {
+                let error = errors[i];
+                let entry = errList[i];
+
+                if (inputs[i] == "") {
+                    document.getElementById(entry).innerHTML = error;
+                } else if (i == 2) {
+                    let atIndex = inputs[i].indexOf("@");
+                    let dotIndex = inputs[i].lastIndexOf(".");
+
+                    if (atIndex < 1 || dotIndex < atIndex + 2 || dotIndex >= inputs[i].length) {
+                        document.getElementById(entry).innerHTML = "<span style='color:red'>Please enter a valid email</span>";
+                    } else {
+                        document.getElementById(entry).innerHTML = "OK!";
+                    }
+                } else {
+                    document.getElementById(entry).innerHTML = "OK!";
+                }
+            }
+            }
+
+            function finalCheck() {
+                let i = 0;
+                let flag = 1;
+                for (i; i < errList.length; i++) {
+                    if (document.getElementById(errList[i]).innerHTML != "OK!") {
+                        flag = 0
+                    }
+                }
+
+                if (flag == 1) {
+                    document.getElementById("errorFinal").innerHTML = "All the data entered has been validated."
+                }
+            }
+            </script>
+    </header>
+    <body>
+        <form>
+        <label>First Name:</label>
+        <input type="text" id="firstname", onkeyup="validate();">
+        <div id="errorFirstname"></div></br></br>
+        <label>Last Name:</label>
+        <input type="text" id="lastname", onkeyup="validate();">
+        <div id="errorLastname"></div></br></br>
+        <label>Email:</label>
+        <input type="text" id="email", onkeyup="validate();">
+        <div id="errorEmail"></div></br></br>
+        <input type="button" value="Submit" onclick="validate();finalCheck();">
+        <div id="errorFinal"></div>
+    </form> 
+    </body>
+</html>
